@@ -77,7 +77,9 @@ class Vault:
     def update_curvature(self):
         Tx = self.unit_tangent[:,0]
         Ty = self.unit_tangent[:,1]
-        self.curvature = (Tx**2 + Ty**2)**(1/2)
+        gradx = np.gradient(Tx, self.ds)
+        grady = np.gradient(Ty, self.ds)
+        self.curvature = (gradx**2 + grady**2)**(1/2)
     
     def update_chord(self):
         """
