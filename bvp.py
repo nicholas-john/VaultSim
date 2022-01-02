@@ -2,7 +2,7 @@ import numpy as np
  
 def section_angle(chord_length, arclength, tol, max_iter,
                      min_theta=0,
-                     max_theta=np.pi,
+                     max_theta=2*np.pi,
                      iters=0
                     ):
     """
@@ -12,7 +12,7 @@ def section_angle(chord_length, arclength, tol, max_iter,
     theta = .5 * (max_theta + min_theta) # seems like a good guesstimate
     r = arclength / theta
     if iters > max_iter:
-        print("max_iter reached in search for section angle")
+        print("max_iter reached in search for section angle. \n Try reducing the time interval.")
         return theta, r
     halfchord = r * np.sin( theta / 2 )
     #print("chord estimate" , 2 * halfchord)
@@ -33,7 +33,7 @@ def section_angle(chord_length, arclength, tol, max_iter,
                          max_iter=max_iter
                         )
 
-def circular_section(chord_length, arclength, npts, tol=1e-3, max_iter=100):
+def circular_section(chord_length, arclength, npts, tol=1e-6, max_iter=1000):
     theta, r = section_angle(chord_length, arclength,
                              tol=tol,
                              max_iter=max_iter)
@@ -48,7 +48,7 @@ import matplotlib.pyplot as plt
 
 def test():
     chord_length = 5
-    arclength = 5.5
+    arclength = 10
     npts = 100
     x, y = circular_section(chord_length, arclength, npts)
     y = y - y[0]
@@ -57,7 +57,6 @@ def test():
     z = z * np.exp( -1j * np.pi/6 )
     plt.axis('equal')
     plt.plot(np.real(z), np.imag(z))
-    print(y[0] - y[-1])
     
 test()
 """
